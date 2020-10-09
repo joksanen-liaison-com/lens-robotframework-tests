@@ -1,0 +1,97 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: solution-ci-project-template-tests
+  labels:
+    app: solution-ci-project-template-tests
+spec:
+  template:
+    metadata:
+      labels:
+        app: solution-ci-project-template-tests
+        context: robot-framework-pods
+        category: tests
+        testFW: robotframework
+    spec:
+      restartPolicy: OnFailure
+      imagePullSecrets:
+      - name: alloy-imagepullsecret
+      containers:
+      - name: solution-ci-project-template-tests
+        image: ld1m-lvdprxy01.liaison.lia2:9443/solutions/solution-ci-project-template-tests:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "0.1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+        env:
+        #Most of these will be replaced by parameters when running
+        - name: REMOTE_LIBRARY_URL
+          valueFrom:
+            configMapKeyRef:
+              name: alloy-e2e-test-runner
+              key: REMOTE_LIBRARY_URL
+        - name: INCLUDE_GROUPS
+          value: ""
+        - name: EXCLUDE_GROUPS
+          value: ""
+        # TEST_ENVIRONMENT will work as DC1 in multidc tests
+        - name: TEST_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: alloy-e2e-test-runner
+              key: TEST_ENVIRONMENT
+        - name: DC2
+          value:
+        - name: JENKINS_WEBHOOK_URL
+          value:
+        - name: ROBOT_PARAMETERS
+          value:
+        - name: DRY_RUN
+          value: "false"
+        - name: QRH_CTX_ROOT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: alloy-e2e-test-runner
+              key: QRH_CTX_ROOT_URL
+        - name: QRH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: alloy-e2e-test-runner
+              key: QRH_USERNAME
+        - name: QRH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: alloy-e2e-test-runner
+              key: QRH_PASSWORD
+        - name: QRH_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: alloy-e2e-test-runner
+              key: QRH_ENVIRONMENT
+        - name: QA_REPORTER_ROOT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: alloy-e2e-test-runner
+              key: QA_REPORTER_ROOT_URL
+        - name: QRH_TITLE
+          value:
+        - name: QRH_PROJECT
+          value:
+        - name: QRH_VERSION
+          value:
+        - name: QRH_BUILD_ID
+          value:
+        - name: QRH_BUILD_URL
+          value:
+        - name: QRH_REPOSITORY_URL
+          value:
+        - name: QRH_SCM_BRANCH
+          value:
+        - name: QRH_SCM_COMMIT
+          value:
+        - name: QRH_TEST_TYPE
+          value:

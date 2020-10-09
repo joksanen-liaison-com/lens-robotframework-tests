@@ -1,0 +1,63 @@
+project:
+  name: solution-ci-project-template
+  #slackChannel: solution-project-template
+  #slackChannelCredentialId: slack-solution-project-template
+testSessions:
+- name: "PR-map-tests-UAT"
+  parallel: false
+  onFailure: abort
+  #sendToSlack: All
+  containers:
+  - image: solutions/solution-ci-project-template-tests
+    imageTag: dynamic
+    gitRepository: solution-ci-project-template
+    deployment:
+      cluster: LD1U_C1
+      namespace: UAT
+      testTag: ExampleMapTest1
+      testReport:
+        title: "Map Robot Tests in LD1-UAT"
+        testType: E2E
+- name: "Map-tests-UAT"
+  parallel: false
+  onFailure: abort
+  #sendToSlack: All
+  containers:
+  - image: solutions/solution-ci-project-template-tests
+    gitRepository: solution-ci-project-template
+    deployment:
+      cluster: LD1U_C1
+      namespace: UAT
+      testTag: ExampleMapTest1
+      testReport:
+        title: "Map Robot Tests in LD1-UAT"
+        testType: E2E
+- name: "PR-integration-tests-UAT"
+  parallel: false
+  onFailure: abort
+  #sendToSlack: All
+  containers:
+  - image: solutions/solution-ci-project-template-tests
+    imageTag: dynamic
+    gitRepository: solution-ci-project-template
+    deployment:
+      cluster: LD1U_C1
+      namespace: UAT
+      testTag: Integration
+      testReport:
+        title: "Integration Robot Tests in LD1-UAT"
+        testType: E2E
+- name: "Integration-tests-UAT"
+  parallel: false
+  onFailure: abort
+  #sendToSlack: All
+  containers:
+  - image: solutions/solution-ci-project-template-tests
+    gitRepository: solution-ci-project-template
+    deployment:
+      cluster: LD1U_C1
+      namespace: UAT
+      testTag: Integration
+      testReport:
+        title: "Integration Robot Tests in LD1-UAT"
+        testType: E2E

@@ -1,0 +1,1 @@
+# solution-ci-project-template
